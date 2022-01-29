@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ListingsService, Recipe } from '../listings-page/listings.service';
 
 @Component({
   selector: 'app-details-page',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetailsPageComponent implements OnInit {
 
-  constructor() { }
+  recipe: Recipe | undefined;
+
+  constructor(
+    private route: ActivatedRoute,
+    private listingsService: ListingsService
+  ) {}
 
   ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id') as string;
+    this.recipe = this.listingsService.getRecipeBasedOnId(id);
   }
 
 }
