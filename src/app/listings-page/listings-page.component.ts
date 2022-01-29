@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ListingsService, Recipe } from './listings.service';
 
 @Component({
   selector: 'app-listings-page',
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./listings-page.component.css']
 })
 export class ListingsPageComponent implements OnInit {
+  recipes: Array<Recipe> = [];
 
-  constructor() { }
+  constructor(private listingsService: ListingsService) { }
 
   ngOnInit(): void {
+    this.recipes = this.listingsService.getRecipes();
   }
 
 }
