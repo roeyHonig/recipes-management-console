@@ -1,1 +1,29 @@
-<p>details-page works!</p>
+<div *ngIf="recipe">
+    <div class="recipe-attribute-container">
+        <h1>כותרת</h1>
+        <div> {{ recipe?.title}}</div>
+    </div>
+    <div class="recipe-attribute-container">
+        <h1>כותרת לרשימת חומרים ראשונה</h1>
+        <div> {{ recipe?.ing1Title}}</div>
+        <h1>חומרים</h1>
+        <div> {{ recipe?.ing1}}</div>
+    </div>
+    <div class="recipe-attribute-container" *ngIf="recipe?.ing2Title">
+        <h1>כותרת לרשימת חומרים שניה</h1>
+        <div> {{ recipe?.ing2Title}}</div>
+        <h1>חומרים</h1>
+        <div> {{ recipe?.ing2}}</div>
+    </div>
+    <div class="recipe-attribute-container" *ngIf="recipe?.ing3Title">
+        <h1>כותרת לרשימת חומרים שלישית</h1>
+        <div> {{ recipe?.ing3Title}}</div>
+        <h1>חומרים</h1>
+        <div> {{ recipe?.ing3}}</div>
+    </div>
+    <div class="recipe-attribute-container">
+        <h1>הוראות הכנה</h1>
+        <div> {{ recipe?.instructions}}</div>
+    </div>
+    
+</div>

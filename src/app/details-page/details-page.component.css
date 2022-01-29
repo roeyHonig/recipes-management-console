@@ -1,0 +1,13 @@
+.recipe-attribute-container {
+    margin: 25px;
+    padding: 5px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: black;
+    text-align: right;
+    direction: rtl;
+}
+
+h1 {
+    text-decoration: underline;
+}

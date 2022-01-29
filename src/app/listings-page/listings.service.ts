@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { filter, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,10 @@ export class ListingsService {
 
   public getRecipes(): Array<Recipe> {
     return this.getMockData(); /* TODO: get it from FB DB */
+  }
+
+  public getRecipeBasedOnId(id: string): Recipe | undefined {
+    return this.getRecipes().find(e => e.id === id);
   }
 }
 
