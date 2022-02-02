@@ -6,4 +6,5 @@
     border-color: black;
     text-align: right;
     direction: rtl;
+    white-space:pre-line;
 }
