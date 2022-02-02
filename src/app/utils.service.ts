@@ -74,9 +74,6 @@ export class UtilsService {
     }
   }
 
-  /**
-   * readRecipesUTF16FromFirebaseCloudStoreDataBaseAndConvertToRecipes
- : Array<Re>  */
   public async readRecipesUTF16FromFirebaseCloudStoreDataBaseAndConvertToRecipes(): Promise<Array<Recipe>> {
     let returnValues: Array<Recipe> = [];
     const q = query(collection(db, "recipes"));
