@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, addDoc, updateDoc, query } from 'firebase/firestore/lite';
+import { getFirestore, collection, getDocs, addDoc, updateDoc, query, where } from 'firebase/firestore/lite';
 import { Recipe } from './listings-page/listings.service';
 
 const firebaseConfig = {
@@ -99,8 +99,24 @@ export class UtilsService {
     return returnValues;
   }
 
-
-
+  public async updateRecipeIdWithTheFollowingNewData(recipeId: string, newRecipe: Recipe) {
+    console.log("trying to update id: " + recipeId);
+    const newRecipeUTF16 = this.newRecipeUTF16FromRecipe(newRecipe);
+    const q = query(collection(db, "recipes"), where("id", "==", recipeId));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.docs.length == 1) {
+      await updateDoc(querySnapshot.docs[0].ref, {
+        'title': newRecipeUTF16.title,
+        'ing1': newRecipeUTF16.ing1,
+        'ing1Title': newRecipeUTF16.ing1Title,
+        'ing2': newRecipeUTF16.ing2,
+        'ing2Title': newRecipeUTF16.ing2Title,
+        'ing3': newRecipeUTF16.ing3,
+        'ing3Title': newRecipeUTF16.ing3Title,
+        'instructions': newRecipeUTF16.instructions,
+      });
+    }
+  }
 }
 
 export interface RecipeUTF16 {

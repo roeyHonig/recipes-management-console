@@ -18,23 +18,14 @@ export class ListingsPageComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    this.updateRecipes();
+  }
+
+  public updateRecipes() {
     this.listingsService.getRecipes().then((recipesList) => {
       this.recipes = recipesList;
     });
-    const title = 'מרק עוף';
-    const ingTitle = 'חומרים למרק';
-    const ing = `1. אבקת מרק עוף
-    2. תפוא`;
-    const instr = 'להרתיח הכל'
-    const myNewRecipe = this.listingsService.newRecipe(title, ingTitle, ing, '', '', '', '', instr)
-    //this.utilsService.writeRecipeToFirebaseCloudFireStoreDataBase(myNewRecipe);
-
-    
-
-    
   }
-
-  
 }
 
 
