@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Recipe } from '../listings-page/listings.service';
+import { UtilsService } from '../utils.service';
+import { RecipeFormComponentComponent } from './recipe-form-component/recipe-form-component.component';
 
 @Component({
   selector: 'app-add-page',
@@ -7,9 +10,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private utilsService: UtilsService) { }
 
   ngOnInit(): void {
+  }
+
+  addRecipe(newRecipe : Recipe) {
+    this.utilsService.writeRecipeToFirebaseCloudFireStoreDataBase(newRecipe);
   }
 
 }

@@ -7,6 +7,8 @@ import { ListingsPageComponent } from './listings-page/listings-page.component';
 import { DetailsPageComponent } from './details-page/details-page.component';
 import { EditPageComponent } from './edit-page/edit-page.component';
 import { AddPageComponent } from './add-page/add-page.component';
+import { RecipeFormComponentComponent } from './add-page/recipe-form-component/recipe-form-component.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,11 +16,13 @@ import { AddPageComponent } from './add-page/add-page.component';
     ListingsPageComponent,
     DetailsPageComponent,
     EditPageComponent,
-    AddPageComponent
+    AddPageComponent,
+    RecipeFormComponentComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

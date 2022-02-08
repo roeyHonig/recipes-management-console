@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UtilsService } from '../utils.service';
 import { ListingsService, Recipe } from './listings.service';
 
@@ -14,7 +15,8 @@ export class ListingsPageComponent implements OnInit {
 
   constructor(
     private listingsService: ListingsService,
-    private utilsService: UtilsService
+    private utilsService: UtilsService,
+    private router: Router
     ) { }
 
   ngOnInit(): void {
@@ -25,6 +27,10 @@ export class ListingsPageComponent implements OnInit {
     this.listingsService.getRecipes().then((recipesList) => {
       this.recipes = recipesList;
     });
+  }
+
+  public onRecipeClicked(recipe: Recipe) {
+    this.router.navigateByUrl(`/details/${ recipe.id }`);
   }
 }
 

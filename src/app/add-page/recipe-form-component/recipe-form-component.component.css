@@ -1,0 +1,21 @@
+input {
+    margin-right: 8px;
+}
+
+textarea {
+    vertical-align: top;
+    margin-right: 8px;
+}
+
+label {
+    vertical-align: top;
+}
+
+div {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+form {
+    direction: rtl;
+}
