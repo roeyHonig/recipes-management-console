@@ -117,6 +117,47 @@ export class UtilsService {
       });
     }
   }
+
+  public async findRecipeIdFromFirebaseCloudStoreDataBaseAndConvertToRecipe(recipeId: string): Promise<Recipe> {
+    let returnValues: Array<Recipe> = [];
+    const q = query(collection(db, "recipes"), where("id", "==", recipeId));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.docs.length == 1) {
+      querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log("title as array of utf16 numbers: " + doc.get("title"));
+      console.log(doc.id, " => ", doc.data()["title"]);
+      const recipeUTF16 = {
+        id: doc.id,
+        title: doc.data()["title"],
+        ing1Title: doc.data()["ing1Title"],
+        ing1: doc.data()["ing1"],
+        ing2Title: doc.data()["ing2Title"],
+        ing2: doc.data()["ing2"],
+        ing3Title: doc.data()["ing3Title"],
+        ing3: doc.data()["ing3"],
+        instructions: doc.data()["instructions"]      
+      };
+      const recipe = this.newRecipeFromRecipeUTF16(recipeUTF16);
+      returnValues.push(recipe);
+    });
+    return returnValues[0];
+
+    } else {
+      /* maybe we need to reject */
+      return {
+        id: '', /* id is set when writing to the DB */
+        title: '',
+        ing1Title: '',
+        ing1: '',
+        ing2Title: '',
+        ing2: '',
+        ing3Title: '',
+        ing3: '',
+        instructions: ''
+      };
+    }
+  }
 }
 
 export interface RecipeUTF16 {

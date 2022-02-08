@@ -1,5 +1,8 @@
 <div>
+    <a routerLink="/add">
+        <button>Add new recipe</button>
+    </a>
     <div class="recipe-container" *ngFor="let recipe of recipes">
-        <div>{{ recipe.title }}</div>
+        <div (click)="onRecipeClicked(recipe)">{{ recipe.title }}</div>
     </div>
 </div>

@@ -18,7 +18,10 @@ export class DetailsPageComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id') as string;
-    this.recipe = this.listingsService.getRecipeBasedOnId(id);
+    this.listingsService.getRecipeBasedOnId(id).then((recipeResult) => {
+      this.recipe = recipeResult;
+    })
+    
   }
 
 }

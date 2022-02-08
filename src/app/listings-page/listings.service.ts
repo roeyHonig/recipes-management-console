@@ -52,8 +52,8 @@ export class ListingsService {
     return this.utilsService.readRecipesUTF16FromFirebaseCloudStoreDataBaseAndConvertToRecipes();
   }
 
-  public getRecipeBasedOnId(id: string): Recipe | undefined {
-    return this.getMockData().find(e => e.id === id);
+  public async getRecipeBasedOnId(id: string): Promise<Recipe> {
+    return this.utilsService.findRecipeIdFromFirebaseCloudStoreDataBaseAndConvertToRecipe(id);
   }
 
   public newRecipe(t: string, ing1T: string, in1: string, ing2T: string, in2: string, ing3T: string, in3: string, inst: string) {

@@ -1,0 +1,38 @@
+<form (ngSubmit)="onSubmit()">
+    <div>
+        <label for="title">שם המתכון:</label>
+        <input [(ngModel)]="title" name="title" id="title" type="text">
+    </div>
+    <div>
+        <label for="ing1Title">כותרת חומרים ראשונה:</label>
+        <input [(ngModel)]="ing1Title" name="ing1Title" id="ing1Title" type="text">
+    </div>
+    <div>
+        <label for="ing1">רשימת חומרים ראשונה:</label>
+        <textarea [(ngModel)]="ing1" name="ing1" id="ing1" cols="30" rows="10"></textarea>
+    </div>
+    <div>
+        <label for="ing2Title">כותרת חומרים שניה:</label>
+        <input [(ngModel)]="ing2Title" name="ing2Title" id="ing2Title" type="text">
+    </div>
+    <div>
+        <label for="ing2">רשימת חומרים שניה:</label>
+        <textarea [(ngModel)]="ing2" name="ing2" id="ing2" cols="30" rows="10"></textarea>
+    </div>
+    <div>
+        <label for="ing3Title">כותרת חומרים שלישית:</label>
+        <input [(ngModel)]="ing3Title" name="ing3Title" id="ing3Title" type="text">
+    </div>
+    <div>
+        <label for="ing3">רשימת חומרים שלישית:</label>
+        <textarea [(ngModel)]="ing3" name="ing3" id="ing3" cols="30" rows="10"></textarea>
+    </div>
+    <div>
+        <label for="instructions">הוראות הכנה:</label>
+        <textarea [(ngModel)]="instructions" name="instructions" id="instructions" cols="30" rows="10"></textarea>
+    </div>
+    <div>
+        <button type="submit">צור מתכון</button>
+    </div>
+    
+</form>
