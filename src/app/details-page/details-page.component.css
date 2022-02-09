@@ -12,18 +12,7 @@
     direction: rtl;
     text-align: right;
     color: white;  
-}
-
-.recipe-attribute-container {
-    margin: 25px;
-    padding: 5px;
-    border-width: 2px;
-    border-style: solid;
-    border-color: black;
-    text-align: right;
-    direction: rtl;
     white-space:pre-line;
-    color: white;
 }
 
 h1 {
