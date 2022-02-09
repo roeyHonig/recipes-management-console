@@ -1,4 +1,6 @@
 <div class="container">
+    <!-- This div prevents size mismatch between body and html elements -->
+    <div style="color: transparent; font-size: 1px !important;">recipe-management-console</div> 
     <div class="recipe_container" *ngIf="recipe">
         <h1>{{ recipe?.ing1Title }}</h1>
         <p>{{ recipe?.ing1 }}</p>

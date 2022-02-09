@@ -26,11 +26,6 @@ p {
     margin-bottom: 0.2em;
 }
 
-::ng-deep body,
-::ng-deep html {
-  background-color: black;
-}
-
 ::ng-deep body::-webkit-scrollbar {
     display: none; /* for Chrome, Safari, and Opera */
 }
