@@ -1,3 +1,19 @@
+
+.container {
+    background-color: black;
+    font-size: 9vw;
+    font-family: Helvetica, sans-serif;
+    height: 100%;
+}
+
+.recipe_container {
+    padding-right: 5%;
+    padding-left: 5%;
+    direction: rtl;
+    text-align: right;
+    color: white;  
+}
+
 .recipe-attribute-container {
     margin: 25px;
     padding: 5px;
@@ -7,8 +23,26 @@
     text-align: right;
     direction: rtl;
     white-space:pre-line;
+    color: white;
 }
 
 h1 {
-    text-decoration: underline;
+    font-size: 100%;
+    margin-bottom: 0.2em;
 }
+
+p {
+    font-size: 50%;
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+::ng-deep body,
+::ng-deep html {
+  background-color: black;
+}
+
+::ng-deep body::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+}
+
