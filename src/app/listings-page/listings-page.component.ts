@@ -20,13 +20,21 @@ export class ListingsPageComponent implements OnInit {
     private router: Router
     ) {
       this.isUserSignedIn = this.utilsService.userSignedIn ? true : false; // TODO: think of a better archticture to not duplicate this everytime
+      console.log("upper usersignedin: " + this.isUserSignedIn);
+      if (this.isUserSignedIn) {
+        this.updateRecipes();
+      }
      }
 
   ngOnInit(): void {
-    this.updateRecipes();
+    //this.updateRecipes(); 
     // TODO: think of a better archticture to not duplicate this everytime
     this.utilsService.getObservableForAuthChange().subscribe((user) => {
       this.isUserSignedIn = this.utilsService.userSignedIn ? true : false;
+      console.log("bottom usersignedin: " + this.isUserSignedIn);
+      if (this.isUserSignedIn) {
+        this.updateRecipes();
+      }
     });
   }
 

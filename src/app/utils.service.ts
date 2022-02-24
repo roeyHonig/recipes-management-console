@@ -101,7 +101,7 @@ export class UtilsService {
 
   public async readRecipesUTF16FromFirebaseCloudStoreDataBaseAndConvertToRecipes(): Promise<Array<Recipe>> {
     let returnValues: Array<Recipe> = [];
-    const q = query(collection(db, "recipes"));
+    const q = query(collection(db, "recipes"), where("uid", "==", this.signedUserUid));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
