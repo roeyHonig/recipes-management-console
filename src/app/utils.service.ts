@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs, addDoc, updateDoc, query, where } from 'firebase/firestore/lite';
+import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, User } from "firebase/auth"; // TODO: maybe move this to firebase auth utils service
 import { Recipe } from './listings-page/listings.service';
+import { Observable, Observer, Subject } from 'rxjs';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAWZO70q5GI-VWaC3jSoqQLehEdYwKqp1U",
@@ -15,13 +17,34 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(); // TODO: maybe move this to firebase auth utils service
+const googleAuthProvider = new GoogleAuthProvider(); // TODO: maybe move this to firebase auth utils service
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilsService {
 
-  constructor() { }
+  userSignedIn: User | null = null; // TODO: maybe move this to firebase auth utils service
+  signedUserUid = '';
+  userSignInBrodcaster: Subject<User | null> = new Subject();
+
+  constructor() {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        console.log("we have a user from FB")
+        this.userSignedIn = user;
+        this.signedUserUid = user.uid;
+        this.userSignInBrodcaster.next(user);
+      } else {
+        this.userSignedIn = null;
+        this.signedUserUid = '';
+        this.userSignInBrodcaster.next(null);
+      }
+    });
+  }
 
   public getArrayOfUTF16FromString(str: string): Array<number> {
     let arrayOfUTF16Code: Array<number> = [];
@@ -45,7 +68,8 @@ export class UtilsService {
       ing2: this.getArrayOfUTF16FromString(recipe.ing2),
       ing3Title: this.getArrayOfUTF16FromString(recipe.ing3Title),
       ing3: this.getArrayOfUTF16FromString(recipe.ing3),
-      instructions: this.getArrayOfUTF16FromString(recipe.instructions)    
+      instructions: this.getArrayOfUTF16FromString(recipe.instructions),
+      uid: recipe.uid    
     };
   }
 
@@ -59,7 +83,8 @@ export class UtilsService {
       ing2: this.getStringFromUTF16Array(rec16.ing2),
       ing3Title: this.getStringFromUTF16Array(rec16.ing3Title),
       ing3: this.getStringFromUTF16Array(rec16.ing3),
-      instructions: this.getStringFromUTF16Array(rec16.instructions)    
+      instructions: this.getStringFromUTF16Array(rec16.instructions),
+      uid: rec16.uid    
     };
   }
 
@@ -76,7 +101,7 @@ export class UtilsService {
 
   public async readRecipesUTF16FromFirebaseCloudStoreDataBaseAndConvertToRecipes(): Promise<Array<Recipe>> {
     let returnValues: Array<Recipe> = [];
-    const q = query(collection(db, "recipes"));
+    const q = query(collection(db, "recipes"), where("uid", "==", this.signedUserUid));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
@@ -91,7 +116,8 @@ export class UtilsService {
         ing2: doc.data()["ing2"],
         ing3Title: doc.data()["ing3Title"],
         ing3: doc.data()["ing3"],
-        instructions: doc.data()["instructions"]      
+        instructions: doc.data()["instructions"],
+        uid: doc.data()["uid"] ?? ''
       };
       const recipe = this.newRecipeFromRecipeUTF16(recipeUTF16);
       returnValues.push(recipe);
@@ -114,6 +140,7 @@ export class UtilsService {
         'ing3': newRecipeUTF16.ing3,
         'ing3Title': newRecipeUTF16.ing3Title,
         'instructions': newRecipeUTF16.instructions,
+        'uid': newRecipeUTF16.uid
       });
     }
   }
@@ -136,7 +163,8 @@ export class UtilsService {
         ing2: doc.data()["ing2"],
         ing3Title: doc.data()["ing3Title"],
         ing3: doc.data()["ing3"],
-        instructions: doc.data()["instructions"]      
+        instructions: doc.data()["instructions"],
+        uid: doc.data()["instructions"] ?? ''
       };
       const recipe = this.newRecipeFromRecipeUTF16(recipeUTF16);
       returnValues.push(recipe);
@@ -154,9 +182,49 @@ export class UtilsService {
         ing2: '',
         ing3Title: '',
         ing3: '',
-        instructions: ''
+        instructions: '',
+        uid: ''
       };
     }
+  }
+
+  // TODO: maybe move this to firebase auth utils service
+  public signInWithFirebaseUsingGoogleAccount() {
+    signInWithPopup(auth, googleAuthProvider)
+    .then((result) => {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential?.accessToken;
+      // The signed-in user info.
+      const user = result.user;
+      //...
+    })
+    .catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      const email = error.email;
+      // The AuthCredential type that was used.
+      const credential = GoogleAuthProvider.credentialFromError(error);
+      // ...
+    });
+  }
+
+  // TODO: maybe move this to firebase auth utils service
+  public signOutUsingFirebase() {
+    signOut(auth)
+    .then(() => {
+      console.log("sign out successful");
+    })
+    .catch((error) => {
+      console.log("sign out error happened");
+    })
+  }
+
+  // TODO: maybe move this to firebase auth utils service
+  public getObservableForAuthChange(): Subject<User | null> {
+    return this.userSignInBrodcaster;
   }
 }
 
@@ -169,5 +237,6 @@ export interface RecipeUTF16 {
   ing2: Array<number>,
   ing3Title: Array<number>,
   ing3: Array<number>,
-  instructions: Array<number>
+  instructions: Array<number>,
+  uid: string
 }

@@ -10,44 +10,6 @@ export class ListingsService {
 
   constructor(private utilsService: UtilsService) { }
 
-  private getMockData(): Array<Recipe> {
-    return [
-      {
-        id: '1',
-        title: 'מרק חרירה',
-        ing1Title: 'חומרים למרק',
-        ing1: 'גזר - 3',
-        ing2Title: '',
-        ing2: '',
-        ing3Title: '',
-        ing3: '',
-        instructions: 'מכינים מרק טעים'
-      },
-      {
-        id: '2',
-        title: 'עוגת שוקולד',
-        ing1Title: 'חומרים לעוגת השוקולד',
-        ing1: 'חבילת שוקולד - 3',
-        ing2Title: '',
-        ing2: '',
-        ing3Title: '',
-        ing3: '',
-        instructions: 'מכינים עוגה טעים'
-      },
-      {
-        id: '3',
-        title: 'שקשוקה',
-        ing1Title: 'חומרים לשקשוקה',
-        ing1: 'עגבניות - 3',
-        ing2Title: '',
-        ing2: '',
-        ing3Title: '',
-        ing3: '',
-        instructions: 'מכינים שקשוקה טעימה'
-      }
-    ];
-  }
-
   public async getRecipes(): Promise<Array<Recipe>> {
     return this.utilsService.readRecipesUTF16FromFirebaseCloudStoreDataBaseAndConvertToRecipes();
   }
@@ -56,7 +18,7 @@ export class ListingsService {
     return this.utilsService.findRecipeIdFromFirebaseCloudStoreDataBaseAndConvertToRecipe(id);
   }
 
-  public newRecipe(t: string, ing1T: string, in1: string, ing2T: string, in2: string, ing3T: string, in3: string, inst: string) {
+  public newRecipe(t: string, ing1T: string, in1: string, ing2T: string, in2: string, ing3T: string, in3: string, inst: string, usrUID: string) {
     return {
       id: '', /* id is set when writing to the DB */
       title: t,
@@ -66,7 +28,8 @@ export class ListingsService {
       ing2: in2,
       ing3Title: ing3T,
       ing3: in3,
-      instructions: inst
+      instructions: inst,
+      uid: usrUID
     };
   }
 }
@@ -81,4 +44,5 @@ export interface Recipe {
   ing3Title: string,
   ing3: string,
   instructions: string,
+  uid: string
 }

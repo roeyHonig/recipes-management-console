@@ -10,13 +10,32 @@ import { RecipeFormComponentComponent } from './recipe-form-component/recipe-for
 })
 export class AddPageComponent implements OnInit {
 
-  constructor(private utilsService: UtilsService) { }
+  isUserSignedIn = false; // TODO: think of a better archticture to not duplicate this everytime
+  userUID = '';
+
+  constructor(private utilsService: UtilsService) { 
+    this.isUserSignedIn = this.utilsService.userSignedIn ? true : false; // TODO: think of a better archticture to not duplicate this everytime
+    this.userUID = this.utilsService.signedUserUid;
+  }
 
   ngOnInit(): void {
+    // TODO: think of a better archticture to not duplicate this everytime
+    this.utilsService.getObservableForAuthChange().subscribe((user) => {
+      this.isUserSignedIn = this.utilsService.userSignedIn ? true : false;
+      this.userUID = user?.uid ?? '';
+    });
   }
 
   addRecipe(newRecipe : Recipe) {
     this.utilsService.writeRecipeToFirebaseCloudFireStoreDataBase(newRecipe);
+  }
+
+  public signOutBtnClicked(){
+    this.utilsService.signOutUsingFirebase();
+  }
+
+  public signInWithGoogleBtnClicked() {
+    this.utilsService.signInWithFirebaseUsingGoogleAccount()
   }
 
 }
