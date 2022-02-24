@@ -1,7 +1,7 @@
 <div *ngIf="isUserSignedIn">
     <button (click)="signOutBtnClicked()">Sign Out</button>
 </div>
-<app-recipe-form-component *ngIf="isUserSignedIn" (onSubmitEvent)="addRecipe($event)"></app-recipe-form-component>
+<app-recipe-form-component *ngIf="isUserSignedIn" (onSubmitEvent)="addRecipe($event)" [uid]="userUID"></app-recipe-form-component>
 <div *ngIf="!isUserSignedIn">
     <button (click)="signInWithGoogleBtnClicked()">Sign In With Google</button>
 </div>

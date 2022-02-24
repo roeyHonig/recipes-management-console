@@ -11,13 +11,18 @@ import { RecipeFormComponentComponent } from './recipe-form-component/recipe-for
 export class AddPageComponent implements OnInit {
 
   isUserSignedIn = false; // TODO: think of a better archticture to not duplicate this everytime
+  userUID = '';
 
-  constructor(private utilsService: UtilsService) { }
+  constructor(private utilsService: UtilsService) { 
+    this.isUserSignedIn = this.utilsService.userSignedIn ? true : false; // TODO: think of a better archticture to not duplicate this everytime
+    this.userUID = this.utilsService.signedUserUid;
+  }
 
   ngOnInit(): void {
     // TODO: think of a better archticture to not duplicate this everytime
     this.utilsService.getObservableForAuthChange().subscribe((user) => {
       this.isUserSignedIn = this.utilsService.userSignedIn ? true : false;
+      this.userUID = user?.uid ?? '';
     });
   }
 

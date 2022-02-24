@@ -18,7 +18,9 @@ export class ListingsPageComponent implements OnInit {
     private listingsService: ListingsService,
     private utilsService: UtilsService,
     private router: Router
-    ) { }
+    ) {
+      this.isUserSignedIn = this.utilsService.userSignedIn ? true : false; // TODO: think of a better archticture to not duplicate this everytime
+     }
 
   ngOnInit(): void {
     this.updateRecipes();
