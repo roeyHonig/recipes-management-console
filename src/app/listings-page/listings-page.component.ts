@@ -12,6 +12,7 @@ import { ListingsService, Recipe } from './listings.service';
 })
 export class ListingsPageComponent implements OnInit {
   recipes: Array<Recipe> = [];
+  isUserSignedIn = false; // TODO: think of a better archticture to not duplicate this everytime
 
   constructor(
     private listingsService: ListingsService,
@@ -21,6 +22,10 @@ export class ListingsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateRecipes();
+    // TODO: think of a better archticture to not duplicate this everytime
+    this.utilsService.getObservableForAuthChange().subscribe((user) => {
+      this.isUserSignedIn = this.utilsService.userSignedIn ? true : false;
+    });
   }
 
   public updateRecipes() {
@@ -31,6 +36,14 @@ export class ListingsPageComponent implements OnInit {
 
   public onRecipeClicked(recipe: Recipe) {
     this.router.navigateByUrl(`/details/${ recipe.id }`);
+  }
+
+  public signOutBtnClicked(){
+    this.utilsService.signOutUsingFirebase();
+  }
+
+  public signInWithGoogleBtnClicked() {
+    this.utilsService.signInWithFirebaseUsingGoogleAccount()
   }
 }
 
