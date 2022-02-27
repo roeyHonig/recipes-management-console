@@ -18,6 +18,7 @@ export class RecipeFormComponentComponent implements OnInit {
   @Input() ing3: string = '';
   @Input() instructions: string = '';
   @Input() uid: string = '';
+  @Input() submitButtonTitle: string = 'צור מתכון';
 
   @Output() onSubmitEvent = new EventEmitter<Recipe>();
 

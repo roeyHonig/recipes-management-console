@@ -6,7 +6,10 @@
         <button>Add new recipe</button>
     </a>
     <div class="recipe-container" *ngFor="let recipe of recipes">
-        <div (click)="onRecipeClicked(recipe)">{{ recipe.title }}</div>
+        <div (click)="onRecipeClicked(recipe)">
+            <div >{{ recipe.title }}</div>
+            <button (click)="onEditRecipeClicked(recipe)">Edit recipe</button>
+        </div>
     </div>
 </div>
 <div *ngIf="!isUserSignedIn">
