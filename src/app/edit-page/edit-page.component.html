@@ -1,1 +1,17 @@
-<p>edit-page works!</p>
+<div *ngIf="isUserSignedIn">
+    <button (click)="signOutBtnClicked()">Sign Out</button>
+</div>
+<app-recipe-form-component *ngIf="isUserSignedIn" (onSubmitEvent)="editRecipe($event)" [uid]="userUID" 
+[title]="recipeToEdit?.title ?? ''" 
+[ing1Title]="recipeToEdit?.ing1Title ?? ''" 
+[ing1]="recipeToEdit?.ing1 ?? ''" 
+[ing2Title]="recipeToEdit?.ing2Title ?? ''" 
+[ing2]="recipeToEdit?.ing2 ?? ''" 
+[ing3Title]="recipeToEdit?.ing3Title ?? ''" 
+[ing3]="recipeToEdit?.ing3 ?? ''" 
+[instructions]="recipeToEdit?.instructions ?? ''" 
+[submitButtonTitle]="'ערוך מתכון'"
+></app-recipe-form-component>
+<div *ngIf="!isUserSignedIn">
+    <button (click)="signInWithGoogleBtnClicked()">Sign In With Google</button>
+</div>

@@ -48,6 +48,15 @@ export class ListingsPageComponent implements OnInit {
     this.router.navigateByUrl(`/details/${ recipe.id }`);
   }
 
+  public onEditRecipeClicked(recipe: Recipe) {
+    /*this.router.navigateByUrl(`/edit/${ recipe.id }`);*/
+    this.router.navigate([`/edit/${ recipe.id }`], {
+      state: {
+        data: recipe
+      }
+    });
+  }
+
   public signOutBtnClicked(){
     this.utilsService.signOutUsingFirebase();
   }
