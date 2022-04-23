@@ -88,14 +88,16 @@ export class UtilsService {
     };
   }
 
-  public async writeRecipeToFirebaseCloudFireStoreDataBase(recipe: Recipe) {
+  public async writeRecipeToFirebaseCloudFireStoreDataBase(recipe: Recipe): Promise<boolean> {
     const recipeUTF16 = this.newRecipeUTF16FromRecipe(recipe);
     try {
       const docRef = await addDoc(collection(db, "recipes"), recipeUTF16);
       console.log("Document written with ID: ", docRef.id);
       await updateDoc(docRef, 'id', docRef.id);
+      return true;
     } catch (e) {
       console.error("Error adding document: ", e);
+      return false;
     }
   }
 

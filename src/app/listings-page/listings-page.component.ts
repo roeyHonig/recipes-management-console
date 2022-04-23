@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UtilsService } from '../utils.service';
 import { ListingsService, Recipe } from './listings.service';
@@ -11,13 +11,21 @@ import { ListingsService, Recipe } from './listings.service';
   styleUrls: ['./listings-page.component.css']
 })
 export class ListingsPageComponent implements OnInit {
-  recipes: Array<Recipe> = [];
+  private _recipes: Array<Recipe> = [];
+  get recipes() {
+    return this._recipes;
+  }
+  set recipes(newRecipes: Array<Recipe>) {
+    this._recipes = newRecipes;
+    this.changeDetection.detectChanges();
+  }
   isUserSignedIn = false; // TODO: think of a better archticture to not duplicate this everytime
 
   constructor(
     private listingsService: ListingsService,
     private utilsService: UtilsService,
-    private router: Router
+    private router: Router,
+    private changeDetection: ChangeDetectorRef
     ) {
       this.isUserSignedIn = this.utilsService.userSignedIn ? true : false; // TODO: think of a better archticture to not duplicate this everytime
       console.log("upper usersignedin: " + this.isUserSignedIn);
@@ -39,8 +47,10 @@ export class ListingsPageComponent implements OnInit {
   }
 
   public updateRecipes() {
+    // todo: should start a buffer loading
     this.listingsService.getRecipes().then((recipesList) => {
       this.recipes = recipesList;
+      // todo: should close buffer loading
     });
   }
 
