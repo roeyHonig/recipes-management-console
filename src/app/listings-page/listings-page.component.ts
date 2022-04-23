@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UtilsService } from '../utils.service';
 import { ListingsService, Recipe } from './listings.service';
@@ -17,7 +17,8 @@ export class ListingsPageComponent implements OnInit {
   constructor(
     private listingsService: ListingsService,
     private utilsService: UtilsService,
-    private router: Router
+    private router: Router,
+    private changeDetection: ChangeDetectorRef
     ) {
       this.isUserSignedIn = this.utilsService.userSignedIn ? true : false; // TODO: think of a better archticture to not duplicate this everytime
       console.log("upper usersignedin: " + this.isUserSignedIn);
@@ -39,8 +40,11 @@ export class ListingsPageComponent implements OnInit {
   }
 
   public updateRecipes() {
+    // todo: should start a buffer loading
     this.listingsService.getRecipes().then((recipesList) => {
       this.recipes = recipesList;
+      this.changeDetection.detectChanges();
+      // todo: should close buffer loading
     });
   }
 
