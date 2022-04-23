@@ -41,7 +41,6 @@ export class RecipeFormComponentComponent implements OnInit {
     console.log(this.ing3);
     console.log(this.instructions);
     this.onSubmitEvent.emit(this.listingService.newRecipe(this.title, this.ing1Title, this.ing1, this.ing2Title, this.ing2, this.ing3Title, this.ing3, this.instructions, this.uid));
-    this.router.navigateByUrl('/listings'); /* move this to the parent element */
   }
 
 }

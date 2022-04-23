@@ -11,7 +11,14 @@ import { ListingsService, Recipe } from './listings.service';
   styleUrls: ['./listings-page.component.css']
 })
 export class ListingsPageComponent implements OnInit {
-  recipes: Array<Recipe> = [];
+  private _recipes: Array<Recipe> = [];
+  get recipes() {
+    return this._recipes;
+  }
+  set recipes(newRecipes: Array<Recipe>) {
+    this._recipes = newRecipes;
+    this.changeDetection.detectChanges();
+  }
   isUserSignedIn = false; // TODO: think of a better archticture to not duplicate this everytime
 
   constructor(
@@ -43,7 +50,6 @@ export class ListingsPageComponent implements OnInit {
     // todo: should start a buffer loading
     this.listingsService.getRecipes().then((recipesList) => {
       this.recipes = recipesList;
-      this.changeDetection.detectChanges();
       // todo: should close buffer loading
     });
   }
