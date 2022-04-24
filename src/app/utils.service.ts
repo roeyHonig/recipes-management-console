@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, addDoc, updateDoc, query, where } from 'firebase/firestore/lite';
+import { getFirestore, collection, getDocs, addDoc, updateDoc, query, where, deleteDoc, doc } from 'firebase/firestore/lite';
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, User } from "firebase/auth"; // TODO: maybe move this to firebase auth utils service
 import { Recipe } from './listings-page/listings.service';
 import { Observable, Observer, Subject } from 'rxjs';
@@ -127,7 +127,7 @@ export class UtilsService {
     return returnValues;
   }
 
-  public async updateRecipeIdWithTheFollowingNewData(recipeId: string, newRecipe: Recipe) {
+  public async updateRecipeIdWithTheFollowingNewData(recipeId: string, newRecipe: Recipe): Promise<boolean> {
     console.log("trying to update id: " + recipeId);
     const newRecipeUTF16 = this.newRecipeUTF16FromRecipe(newRecipe);
     const q = query(collection(db, "recipes"), where("id", "==", recipeId));
@@ -144,6 +144,20 @@ export class UtilsService {
         'instructions': newRecipeUTF16.instructions,
         'uid': newRecipeUTF16.uid
       });
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public async deleteFromFirebaseCloudFireStoreRecipeID(recipeId: string): Promise<boolean> {
+    const q = query(collection(db, "recipes"), where("id", "==", recipeId));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.docs.length == 1) {
+      await deleteDoc(querySnapshot.docs[0].ref);
+      return true;
+    } else {
+      return false;
     }
   }
 

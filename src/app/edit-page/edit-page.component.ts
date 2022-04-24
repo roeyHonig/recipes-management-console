@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Recipe } from '../listings-page/listings.service';
 import { RecipeFormComponentComponent } from '../add-page/recipe-form-component/recipe-form-component.component';
 import { UtilsService } from '../utils.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-page',
@@ -14,7 +15,10 @@ export class EditPageComponent implements OnInit {
   isUserSignedIn = false; // TODO: think of a better archticture to not duplicate this everytime
   userUID = '';
 
-  constructor(private utilsService: UtilsService) {
+  constructor(
+    private utilsService: UtilsService,
+    private router: Router
+    ) {
     this.isUserSignedIn = this.utilsService.userSignedIn ? true : false; // TODO: think of a better archticture to not duplicate this everytime
     this.userUID = this.utilsService.signedUserUid;
    }
@@ -38,8 +42,16 @@ export class EditPageComponent implements OnInit {
   }
 
   editRecipe(newRecipe : Recipe) {
-    this.utilsService.updateRecipeIdWithTheFollowingNewData(this.recipeToEdit?.id ?? '', newRecipe).then(() => {
-      console.log("update sucess");
+    // TODO: present loading animation
+    this.utilsService.updateRecipeIdWithTheFollowingNewData(this.recipeToEdit?.id ?? '', newRecipe).then((updateSuccessful) => {
+      // TODO: remove loading animation
+      if (updateSuccessful) {
+        // navigate back to the listing page
+        this.router.navigateByUrl('/listings'); 
+      } else {
+        // TODO: present alaert or error message
+        console.log("update failure");
+      }
     });
   }
 

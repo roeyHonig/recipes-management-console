@@ -16,7 +16,8 @@ export class AddPageComponent implements OnInit {
 
   constructor(
     private utilsService: UtilsService,
-    private router: Router) { 
+    private router: Router
+    ) { 
     this.isUserSignedIn = this.utilsService.userSignedIn ? true : false; // TODO: think of a better archticture to not duplicate this everytime
     this.userUID = this.utilsService.signedUserUid;
   }
