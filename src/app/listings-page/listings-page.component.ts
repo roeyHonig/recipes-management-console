@@ -35,7 +35,6 @@ export class ListingsPageComponent implements OnInit {
      }
 
   ngOnInit(): void {
-    //this.updateRecipes(); 
     // TODO: think of a better archticture to not duplicate this everytime
     this.utilsService.getObservableForAuthChange().subscribe((user) => {
       this.isUserSignedIn = this.utilsService.userSignedIn ? true : false;
@@ -55,7 +54,7 @@ export class ListingsPageComponent implements OnInit {
   }
 
   public onRecipeClicked(recipe: Recipe) {
-    this.router.navigateByUrl(`/details/${ recipe.id }`);
+    this.router.navigate([]).then(result => {window.open(`/details/${ recipe.id }`, '_blank');});
   }
 
   public onEditRecipeClicked(recipe: Recipe) {
@@ -64,6 +63,18 @@ export class ListingsPageComponent implements OnInit {
       state: {
         data: recipe
       }
+    });
+  }
+
+  public onDeleteRecipeClicked(recipe: Recipe) {
+    // TOOD: we need to stopPropegation on the event to prevent also clike on the recipe clicked. This means the entire recipe should be a component with outputs, so the click will only pass the event and not the recipe as now.
+    this.utilsService.deleteFromFirebaseCloudFireStoreRecipeID(recipe.id).then((deletionSuccess) => {
+      if (deletionSuccess) {
+        this.updateRecipes();
+      } else {
+        console.log('deletion failure');
+      }
+
     });
   }
 
