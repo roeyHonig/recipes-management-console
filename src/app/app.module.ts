@@ -9,6 +9,7 @@ import { EditPageComponent } from './edit-page/edit-page.component';
 import { AddPageComponent } from './add-page/add-page.component';
 import { RecipeFormComponentComponent } from './add-page/recipe-form-component/recipe-form-component.component';
 import { FormsModule } from '@angular/forms';
+import { RecipeListingComponent } from './listings-page/recipe-listing/recipe-listing.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { FormsModule } from '@angular/forms';
     DetailsPageComponent,
     EditPageComponent,
     AddPageComponent,
-    RecipeFormComponentComponent
+    RecipeFormComponentComponent,
+    RecipeListingComponent
   ],
   imports: [
     BrowserModule,
