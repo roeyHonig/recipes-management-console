@@ -6,5 +6,10 @@
     border-color: black;
     text-align: right;
     direction: rtl;
-    white-space:pre-line;
+    white-space:pre-line;    
 }
+
+button {
+    margin-left: 25px;
+}
+

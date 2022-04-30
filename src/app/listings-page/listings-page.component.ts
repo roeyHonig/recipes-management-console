@@ -67,13 +67,16 @@ export class ListingsPageComponent implements OnInit {
   }
 
   public onDeleteRecipeClicked(recipe: Recipe) {
-    this.utilsService.deleteFromFirebaseCloudFireStoreRecipeID(recipe.id).then((deletionSuccess) => {
-      if (deletionSuccess) {
-        this.updateRecipes();
-      } else {
-        console.log('deletion failure');
-      }
-    });
+    let proceed = confirm("Are you sure you want to delete " + '"' + recipe.title + '"?');
+    if (proceed) {
+      this.utilsService.deleteFromFirebaseCloudFireStoreRecipeID(recipe.id).then((deletionSuccess) => {
+        if (deletionSuccess) {
+          this.updateRecipes();
+        } else {
+          console.log('deletion failure');
+        }
+      });
+    } 
   }
 
   public signOutBtnClicked(){
