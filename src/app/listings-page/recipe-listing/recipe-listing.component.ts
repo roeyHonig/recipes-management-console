@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Recipe } from '../listings.service';
 
 @Component({
@@ -8,24 +8,29 @@ import { Recipe } from '../listings.service';
 })
 export class RecipeListingComponent implements OnInit {
 
-  @Input() recipe: Recipe | null | undefined;
+  @Input() recipe: Recipe | undefined;
+  @Output() onRecipeListingClicked = new EventEmitter<Recipe>();
+  @Output() onRecipeListingEditClicked = new EventEmitter<Recipe>();
+  @Output() onRecipeListingDeleteClicked = new EventEmitter<Recipe>();
   title = '';
 
   constructor() { }
 
   ngOnInit(): void {
     this.title = this.recipe?.title ?? '';
-    
   }
 
   onRecipeClicked() {
-    console.log('recipe clicked');
-
+    this.onRecipeListingClicked.emit(this.recipe);
   }
 
   onEditRecipeClicked() {
-    console.log('edit recipe clicked');
+    this.onRecipeListingEditClicked.emit(this.recipe);
+  }
 
+  onDeleteRecipeClicked(event: any) {
+    event.stopPropagation();
+    this.onRecipeListingDeleteClicked.emit(this.recipe);
   }
 
 }

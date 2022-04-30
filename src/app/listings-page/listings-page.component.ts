@@ -67,14 +67,12 @@ export class ListingsPageComponent implements OnInit {
   }
 
   public onDeleteRecipeClicked(recipe: Recipe) {
-    // TOOD: we need to stopPropegation on the event to prevent also clike on the recipe clicked. This means the entire recipe should be a component with outputs, so the click will only pass the event and not the recipe as now.
     this.utilsService.deleteFromFirebaseCloudFireStoreRecipeID(recipe.id).then((deletionSuccess) => {
       if (deletionSuccess) {
         this.updateRecipes();
       } else {
         console.log('deletion failure');
       }
-
     });
   }
 
